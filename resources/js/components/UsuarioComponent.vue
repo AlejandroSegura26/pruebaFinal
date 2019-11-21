@@ -1,30 +1,25 @@
 <template>
-    <main class="main">
+    <main class="main" style="width: 100%; height: 100%;">
         <!-- Breadcrumb -->
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Escritorio</a></li>
+        <ol class="breadcrumb col-lg-12">
+            <li class="breadcrumb-item"><a href="/principal">Tablero</a></li>
+            <li class="breadcrumb-item">Usuarios</li>
         </ol>
         <div class="container-fluid">
-            <!-- 
-                Listado de Usuarios:  
-                En este datatable se hacen uso de directivas de VueJS como v-text para mostrar los valores de las tablas, v-model para recopilar los datos de los inputs, v-for para insertar las filas de manera automatica iterando un arreglo, v-if y v-else para mostrar o no un determinado componente de la vista y por ultimo @click para mandar llamar un determinado metodo como el abrir/cerrar el modal o el de registrar/actualizar una categoria y activarla o desactivarla
-            -->
             <div class="card">
                 <div class="card-header">
-                    <i class="fa fa-align-justify"></i> Usuarios
-                    <button type="button" @click="abrirModal('persona','registrar')" class="btn btn-secondary">
-                        <i class="icon-plus"></i>&nbsp;Nuevo
+                    <i class="fa fa-user"></i>&nbsp;&nbsp;Usuarios&nbsp;
+                    <button type="button" @click="abrirModal('persona','registrar')" class="btn btn-secondary float-right">
+                        <i class="fa fa-plus"></i>&nbsp;Nuevo
                     </button>
                 </div>
                 <div class="card-body">
                     <div class="form-group row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="input-group">
                                 <select class="form-control col-md-3" v-model="criterio">
                                     <option value="nombre">Nombre</option>
-                                    <option value="num_documento"># de Documento</option>
-                                    <option value="email">Correo Electrónico</option>
-                                    <option value="telefono">Teléfono</option>
+                                    <option value="correo_electronico">Correo Electrónico</option>
                                 </select>
                                 <input type="text" v-model="buscar" @keyup.enter="listarPersona(1,buscar,criterio)" class="form-control"
                                     placeholder="Texto a buscar">
@@ -38,10 +33,6 @@
                             <tr>
                                 <th>Opciones</th>
                                 <th>Nombre</th>
-                                <th>Tipo de Documento</th>
-                                <th># de Documento</th>
-                                <th>Dirección</th>
-                                <th>Teléfono</th>
                                 <th>Correo Electrónico</th>
                                 <th>Usuario</th>
                                 <th>Rol</th>
@@ -94,7 +85,7 @@
         </div>
         <!--Inicio del modal agregar/actualizar-->
         <div class="modal fade" tabindex="-1" :class="{'mostrar' : modal}" role="dialog" aria-labelledby="myModalLabel"
-            style="display: none; overflow-y: scroll;" aria-hidden="true">
+            style="display: none; overflow-y: scroll; padding-top: 55px;" aria-hidden="true">
             <div class="modal-dialog modal-primary modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -109,50 +100,18 @@
                                 <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
                                 <div class="col-md-9">
                                     <input type="text" v-model="nombre" class="form-control"
-                                        placeholder="Ingrese el nombre de la persona">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Tipo de Documento</label>
-                                <div class="col-md-9">
-                                    <select v-model="tipo_documento" form="form-control">
-                                        <option value="INE">INE</option>
-                                        <option value="CURP">CURP</option>
-                                        <option value="RFC">RFC</option>
-                                        <option value="VISA">Visa</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input"># de Documento</label>
-                                <div class="col-md-9">
-                                    <input type="text" v-model="num_documento" class="form-control"
-                                        placeholder="Ingrese el # del documento">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Dirección</label>
-                                <div class="col-md-9">
-                                    <input type="text" v-model="direccion" class="form-control"
-                                        placeholder="Ingrese la dirección de la persona">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Teléfono</label>
-                                <div class="col-md-9">
-                                    <input type="text" v-model="telefono" class="form-control"
-                                        placeholder="Ingrese el teléfono de la persona">
+                                        placeholder="Ingrese el nombre del usuario">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Correo Electrónico</label>
                                 <div class="col-md-9">
                                     <input type="email" v-model="email" class="form-control"
-                                        placeholder="Ingrese el correo electrónico de la persona">
+                                        placeholder="Ingrese el correo electrónico del usuario">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Rol (*)</label>
+                                <label class="col-md-3 form-control-label" for="text-input">Rol <b>(*)</b></label>
                                 <div class="col-md-9">
                                     <select class="form-control" v-model="idrol">
                                         <option value="0">Seleccione una opción: </option>
@@ -161,14 +120,14 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Usuario (*)</label>
+                                <label class="col-md-3 form-control-label" for="text-input">Usuario <b>(*)</b></label>
                                 <div class="col-md-9">
                                     <input type="text" v-model="usuario" class="form-control"
                                         placeholder="Ingrese el nombre de usuario">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Contraseña (*)</label>
+                                <label class="col-md-3 form-control-label" for="text-input">Contraseña <b>(*)</b></label>
                                 <div class="col-md-9">
                                     <input type="password" v-model="password" class="form-control"
                                         placeholder="Ingrese la contraseña">
@@ -182,6 +141,7 @@
                         </form>
                     </div>
                     <div class="modal-footer">
+                        <span><b>(*)</b>&nbsp;Campo obligatorio de ingresar</span>
                         <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
                         <button type="button" v-if="tipoAccion==1" class="btn btn-success" @click="registrarPersona()">Guardar</button>
                         <button type="button" v-if="tipoAccion==2" class="btn btn-warning" @click="actualizarPersona()">Actualizar</button>
@@ -202,10 +162,6 @@
             return {
                 persona_id: 0,
                 nombre: '',
-                tipo_documento: 'INE',
-                num_documento: '',
-                direccion: '',
-                telefono: '',
                 email: '',
                 usuario: '',
                 password: '',
@@ -312,10 +268,6 @@
                 axios.post('/user/registrar',{
                     //Se le asignan los valores recopilados de los inputs del modal
                     'nombre': this.nombre,
-                    'tipo_documento': this.tipo_documento,
-                    'num_documento': this.num_documento,
-                    'direccion': this.direccion,
-                    'telefono': this.telefono,
                     'email': this.email,
                     'usuario': this.usuario,
                     'password': this.password,
@@ -340,10 +292,6 @@
                 axios.put('/user/actualizar',{
                     //Se le asignan los valores recopilados de los inputs del modal
                     'nombre': this.nombre,
-                    'tipo_documento': this.tipo_documento,
-                    'num_documento': this.num_documento,
-                    'direccion': this.direccion,
-                    'telefono': this.telefono,
                     'email': this.email,
                     'usuario': this.usuario,
                     'password': this.password,
@@ -381,10 +329,6 @@
                                 this.tituloModal = 'Registrar Usuario';
                                 this.tipoAccion = 1;
                                 this.nombre = '';
-                                this.tipo_documento = 'INE';
-                                this.num_documento = '';
-                                this.direccion = '';
-                                this.telefono = '';
                                 this.email = '';
                                 this.usuario = '';
                                 this.password = '';
@@ -398,10 +342,6 @@
                                 this.tipoAccion = 2;
                                 this.persona_id = data['id'];
                                 this.nombre = data['nombre'];
-                                this.tipo_documento = data['tipo_documento'];
-                                this.num_documento = data['num_documento'];
-                                this.direccion = data['direccion'];
-                                this.telefono = data['telefono'];
                                 this.email = data['email'];
                                 this.usuario = data['usuario'];
                                 this.password = data['password'];
@@ -467,7 +407,6 @@
                         /* Read more about handling dismissals below */
                         result.dismiss === Swal.DismissReason.cancel
                     ) {
-
                     }
                 })
             },
@@ -510,7 +449,6 @@
                         /* Read more about handling dismissals below */
                         result.dismiss === Swal.DismissReason.cancel
                     ) {
-
                     }
                 })
             },

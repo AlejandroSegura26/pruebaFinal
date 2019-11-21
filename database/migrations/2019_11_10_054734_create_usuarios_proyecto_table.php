@@ -4,26 +4,23 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CrateProblemasTable extends Migration
+class CreateUsuariosProyectoTable extends Migration
 {
-   /**
+    /**
      * Run the migrations.
      *
      * @return void
      */
     public function up()
     {
-        Schema::create('problemas', function (Blueprint $table) {
+        Schema::create('usuarios_proyecto', function (Blueprint $table) {
       
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('id_usuario');
-            $table->foreign('id_usuario')->references('id')->on('usuarios')->onDelete('cascade');
-            $table->string('descripcion',300);
-            $table->tinyInteger('status');
             $table->unsignedBigInteger('id_proyecto');
             $table->foreign('id_proyecto')->references('id')->on('proyecto')->onDelete('cascade');
-            $table->timestamps();
-         
+            $table->unsignedBigInteger('id_usuario');
+            $table->foreign('id_usuario')->references('id')->on('usuarios')->onDelete('cascade');
+            $table->string('rol_proyecto',50);
         });
     }
 
@@ -34,6 +31,6 @@ class CrateProblemasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('problemas');
+        Schema::dropIfExists('usuarios_proyecto');
     }
 }

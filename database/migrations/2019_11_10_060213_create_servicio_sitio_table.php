@@ -4,22 +4,22 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CrateSitioTable extends Migration
+class CreateServicioSitioTable extends Migration
 {
-    /**
+    
+      /**
      * Run the migrations.
      *
      * @return void
      */
     public function up()
     {
-        Schema::create('sitio', function (Blueprint $table) {
- 
+        Schema::create('servicio_sitio', function (Blueprint $table) {
+      
             $table->bigIncrements('id');
-            $table->string('enlace_logo',300);
-            $table->unsignedBigInteger('id_usuario');
-            $table->foreign('id_usuario')->references('id')->on('usuarios')->onDelete('cascade');
-         
+            $table->unsignedBigInteger('id_sitio');
+            $table->foreign('id_sitio')->references('id')->on('sitio')->onDelete('cascade');
+            $table->string('descripcion',300);          
         });
     }
 
@@ -30,6 +30,6 @@ class CrateSitioTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sitio');
+        Schema::dropIfExists('servicio_sitio');
     }
 }

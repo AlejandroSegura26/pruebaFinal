@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Proyecto Final - Freelancer</title>
+  <title>PFF</title>
 
   <!-- Custom fonts for this template-->
   <link href="fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -24,12 +24,10 @@
         <div id="app">
   <!-- Page Wrapper -->
   <div id="wrapper">
-            @include('contenido.sidebar1')
+    @include('contenido.sidebar1')
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-
       <!-- Main Content -->
-
       <div id="content">
         <!-- Topbar -->
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -50,36 +48,28 @@
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Cerrar Sesion
+                  Cerrar Sesión
                 </a>
               </div>
             </li>
           </ul>
         </nav>
         <!-- End of Topbar -->
-
         <!-- Begin Page Content -->
         <div class="container-fluid">
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-
-
-
                 @yield('contenido')
-
-
           </div>
         </div>
         <!-- /.container-fluid -->
-
       </div>
       <!-- End of Main Content -->
-
       <!-- Footer -->
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
+            <span>Copyright &copy; urielroman.me 2019</span>
           </div>
         </div>
       </footer>

@@ -4,25 +4,25 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CrateProyectoTable extends Migration
+class CreateHitosTable extends Migration
 {
-     /**
+    /**
      * Run the migrations.
      *
      * @return void
      */
     public function up()
     {
-        Schema::create('proyecto', function (Blueprint $table) {
+        Schema::create('hitos', function (Blueprint $table) {
       
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('id_proyecto');
+            $table->foreign('id_proyecto')->references('id')->on('proyecto')->onDelete('cascade');
             $table->string('titulo',100);
-            $table->unsignedBigInteger('cliente_id');
-            $table->foreign('cliente_id')->references('id')->on('usuarios')->onDelete('cascade');
             $table->datetime('fecha_inicio');
             $table->datetime('fecha_fin');
             $table->string('descripcion',300);
-           
+            $table->timestamps();
          
         });
     }
@@ -34,6 +34,6 @@ class CrateProyectoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('proyecto');
+        Schema::dropIfExists('hitos');
     }
 }

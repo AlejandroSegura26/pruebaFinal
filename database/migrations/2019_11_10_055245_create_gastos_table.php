@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CrateFacturasTable extends Migration
+class CreateGastosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,18 @@ class CrateFacturasTable extends Migration
      */
     public function up()
     {
-        Schema::create('facturas', function (Blueprint $table) {
+        Schema::create('gastos', function (Blueprint $table) {
       
             $table->bigIncrements('id');
-            $table->string('codigo_factura',30);
-            $table->dateTime('fecha_factura');
-            $table->dateTime('vencimiento_factura');
-            $table->tinyInteger('estado_factura');
+            $table->string('descripcion',300);
+            $table->datetime('fecha_gasto');
+            $table->boolean('estado');
             $table->float('monto');
-            $table->float('monto_pagado');
+            $table->unsignedBigInteger('id_proyecto');
+            $table->foreign('id_proyecto')->references('id')->on('proyecto')->onDelete('cascade');           
         });
-    } 
-     
-                    
+    }
+
     /**
      * Reverse the migrations.
      *
@@ -33,6 +32,6 @@ class CrateFacturasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('facturas');
+        Schema::dropIfExists('gastos');
     }
 }

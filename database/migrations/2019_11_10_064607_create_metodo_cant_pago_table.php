@@ -4,21 +4,24 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CrateRolesTable extends Migration
+class CreateMetodoCantPagoTable extends Migration
 {
-    /**
+       /**
      * Run the migrations.
      *
      * @return void
      */
     public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
-          
+        Schema::create('metodo_cant_pago', function (Blueprint $table) {
+      
             $table->bigIncrements('id');
-            $table->string('nombre',30);
-            $table->string('descripcion',50);
+            $table->float('cantidad_actual');
+            $table->unsignedBigInteger('id_metodo');
+            $table->foreign('id_metodo')->references('id')->on('metodo_pagos')->onDelete('cascade');      
            
+     
+            
         });
     }
 
@@ -29,6 +32,6 @@ class CrateRolesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('metodo_cant_pago');
     }
 }

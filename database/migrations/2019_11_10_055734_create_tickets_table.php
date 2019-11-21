@@ -4,23 +4,24 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CrateUsuariosProyectoTable extends Migration
+class CreateTicketsTable extends Migration
 {
-    /**
+     /**
      * Run the migrations.
      *
      * @return void
      */
     public function up()
     {
-        Schema::create('usuarios_proyecto', function (Blueprint $table) {
+        Schema::create('tickets', function (Blueprint $table) {
       
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('id_proyecto');
-            $table->foreign('id_proyecto')->references('id')->on('proyecto')->onDelete('cascade');
+            $table->string('asunto',50);
+            $table->unsignedBigInteger('id_cliente');
+            $table->foreign('id_cliente')->references('id')->on('usuarios')->onDelete('cascade');
             $table->unsignedBigInteger('id_usuario');
             $table->foreign('id_usuario')->references('id')->on('usuarios')->onDelete('cascade');
-            $table->string('rol_proyecto',50);
+            $table->string('mensaje',1000);          
         });
     }
 
@@ -31,6 +32,6 @@ class CrateUsuariosProyectoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('usuarios_proyecto');
+        Schema::dropIfExists('tickets');
     }
 }

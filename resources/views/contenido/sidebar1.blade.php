@@ -7,17 +7,17 @@
           <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-user"></i>
           </div>
-          <div class="sidebar-brand-text mx-3">Proyecto Final - Freelancer</div>
+          <div class="sidebar-brand-text mx-3">PFF</div>
         </a>
 
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
 
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item active">
+        <li @click="menu=0" class="nav-item active">
           <a class="nav-link" href="#">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a>
+            <span>Tablero</span></a>
         </li>
 
         <!-- Divider -->
@@ -37,10 +37,10 @@
           <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
               <h6 class="collapse-header">Movimientos:</h6>
-              <a  @click="menu=1" class="collapse-item" href="#">Retiros</a>
-              <a class="collapse-item" href="#">Pagos</a>
-              <a class="collapse-item" href="#">Servicios</a>
-              <a class="collapse-item" href="#">Metodos de pago</a>
+              <a @click="menu=1" class="collapse-item" href="#">Retiros</a>
+              <a @click="menu=2" class="collapse-item" href="#">Pagos</a>
+              <a @click="menu=3" class="collapse-item" href="#">Servicios</a>
+              <a @click="menu=4" class="collapse-item" href="#">Metodos de pago</a>
             </div>
           </div>
         </li>
@@ -54,10 +54,10 @@
           <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
               <h6 class="collapse-header">Proyectos:</h6>
-              <a class="collapse-item" href="#">Gestionar Proyectos</a>
-              <a class="collapse-item" href="#">Hitos</a>
-              <a class="collapse-item" href="#">Tareas</a>
-              <a class="collapse-item" href="#">Problemas</a>
+              <a @click="menu=5" class="collapse-item" href="#">Gestionar Proyectos</a>
+              <a @click="menu=6" class="collapse-item" href="#">Hitos</a>
+              <a @click="menu=7" class="collapse-item" href="#">Tareas</a>
+              <a @click="menu=8" class="collapse-item" href="#">Problemas</a>
             </div>
           </div>
         </li>
@@ -69,13 +69,13 @@
           </a>
           <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-              <a class="collapse-item" href="#">Usuarios</a>
-              <a class="collapse-item" href="#">Clientes</a>
-              <a class="collapse-item" href="#">Empresas</a>
+              <h6 class="collapse-header">Usuarios:</h6>
+              <a @click="menu=9" class="collapse-item" href="#">Usuarios</a>
+              <a @click="menu=10" class="collapse-item" href="#">Clientes</a>
+              <a @click="menu=11" class="collapse-item" href="#">Empresas</a>
             </div>
           </div>
         </li>
-
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
@@ -87,3 +87,4 @@
 
       </ul>
       <!-- End of Sidebar -->
+

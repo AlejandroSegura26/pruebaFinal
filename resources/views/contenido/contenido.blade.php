@@ -2,35 +2,45 @@
 @section('contenido')
     <!-- Administrador -->
     @if (Auth::user()->rol_id == 1)
+        <!-- Tablero -->
         <template v-if="menu==0">
             <h1>¡Bienvenido {{Auth::user()->usuario}}!</h1>
         </template>
+        <!-- Hitos -->
         <template v-if="menu==1">
             <h1>Administrador / 1</h1>
         </template>
+        <!-- Tareas -->
         <template v-if="menu==2">
             <h1>Administrador / 2</h1>
         </template>
+        <!-- Boletos -->
         <template v-if="menu==3">
             <h1>Administrador / 3</h1>
         </template>
+        <!-- Métodos de Pago -->
         <template v-if="menu==4">
-            <h1>Administrador / 4</h1>
+            <metodospago-component></metodospago-component>
         </template>
+        <!-- Proyectos -->
         <template v-if="menu==5">
             <h1>Administrador / 5</h1>
         </template>
+        <!-- Servicios -->
         <template v-if="menu==6">
             <h1>Administrador / 6</h1>
         </template>
+        <!-- Facturas -->
         <template v-if="menu==7">
             <h1>Administrador / 7</h1>
         </template>
+        <!-- Movimientos -->
         <template v-if="menu==8">
-            <usuario-component></usuario-component>
+            <h1>Administrador / 8</h1>
         </template>
+        <!-- Usuarios -->
         <template v-if="menu==9">
-            <cliente-component></cliente-component>
+            <usuario-component></usuario-component>
         </template>
     <!-- Director Proyecto -->
     @elseif(Auth::user()->rol_id == 2)
@@ -124,9 +134,6 @@
         </template>
         <template v-if="menu==8">
             <usuario-component></usuario-component>
-        </template>
-        <template v-if="menu==9">
-            <h1>Cliente / 9</h1>
         </template>
     @endif
 @endsection

@@ -11,6 +11,6 @@ const mix = require('laravel-mix');
  |
  */
 
-    mix.styles(['resources/src/sb-admin-2.min.css'],'public/css/plantilla.css')
-    .scripts(['resources/src/jquery.min.js','resources/src/bootstrap.bundle.min.js','resources/src/jquery.easing.min.js','resources/src/sb-admin-2.min.js','resources/src/Chart.min.js'],'public/js/plantilla.js')
+mix.styles(['resources/src/sb-admin-2.min.css'], 'public/css/plantilla.css')
+    .scripts(['resources/src/jquery.min.js', 'resources/src/bootstrap.bundle.min.js', 'resources/src/jquery.easing.min.js', 'resources/src/sb-admin-2.min.js', 'resources/src/Chart.min.js', 'resources/src/sweetalert2.all.min.js'], 'public/js/plantilla.js')
     .js('resources/js/app.js', 'public/js/app.js');

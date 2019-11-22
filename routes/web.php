@@ -19,15 +19,27 @@ Route::group(['middleware' => ['guest']], function () {
 });
 //Rutas para un usuario autenticado
 Route::group(['middleware' => ['auth']], function () {
+    //Rutas para el usuario 'Administrador'
     Route::group(['middleware' => ['Administrador']], function () {
-        
+        //Rutas para ver y listar roles
+        Route::get('/rol','RolController@index');
+        Route::get('/rol/selectRol','RolController@selectRol');
+        //Rutas para ver, agregar, actualizar, listar y activar/desactivar usuarios
+        Route::get('/usuario','UserController@index');
+        Route::post('/usuario/registrar','UserController@store');
+        Route::put('/usuario/actualizar','UserController@update');
+        Route::put('/usuario/desactivar','UserController@desactivar');
+        Route::put('/usuario/activar','UserController@activar');
     });
+    //Rutas para el usuario 'Director de Proyecto'
     Route::group(['middleware' => ['DirectorProyecto']], function () {
         
     });
+    //Rutas para el usuario 'Programador'
     Route::group(['middleware' => ['Programdor']], function () {
         
     });
+    //Rutas para el usuario 'Cliente'
     Route::group(['middleware' => ['Cliente']], function () {
         
     });

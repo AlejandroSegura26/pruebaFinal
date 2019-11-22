@@ -9,7 +9,7 @@
             <div class="card">
                 <div class="card-header">
                     <i class="fa fa-user"></i>&nbsp;&nbsp;Usuarios&nbsp;
-                    <button type="button" @click="abrirModal('persona','registrar')" class="btn btn-secondary float-right">
+                    <button type="button" @click="abrirModal('usuario','registrar')" class="btn btn-secondary float-right">
                         <i class="fa fa-plus"></i>&nbsp;Nuevo
                     </button>
                 </div>
@@ -21,9 +21,9 @@
                                     <option value="nombre">Nombre</option>
                                     <option value="correo_electronico">Correo Electrónico</option>
                                 </select>
-                                <input type="text" v-model="buscar" @keyup.enter="listarPersona(1,buscar,criterio)" class="form-control"
+                                <input type="text" v-model="buscar" @keyup.enter="listarUsuario(1,buscar,criterio)" class="form-control"
                                     placeholder="Texto a buscar">
-                                <button type="submit" @click="listarPersona(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i>
+                                <button type="submit" @click="listarUsuario(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i>
                                     Buscar</button>
                             </div>
                         </div>
@@ -39,30 +39,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="persona in arrayPersona" :key="persona.id">
+                            <tr v-for="usuario in arrayUsuario" :key="usuario.id">
                                 <td>
-                                    <button type="button" @click="abrirModal('persona','actualizar',persona)" class="btn btn-warning btn-sm">
-                                        <i class="icon-pencil"></i>
+                                    <button type="button" @click="abrirModal('usuario','actualizar',usuario)" class="btn btn-warning btn-sm">
+                                        <i class="fas fa-pen"></i>
                                     </button> &nbsp;
-                                    <template v-if="persona.condicion">
-                                        <button type="button" class="btn btn-danger btn-sm" @click="desactivarUsuario(persona.id)">
-                                            <i class="icon-trash"></i>
+                                    <template v-if="usuario.condicion">
+                                        <button type="button" class="btn btn-danger btn-sm" @click="desactivarUsuario(usuario.id)">
+                                            <i class="far fa-eye-slash"></i>
                                         </button>
                                     </template>
                                     <template v-else>
-                                        <button type="button" class="btn btn-info btn-sm" @click="activarUsuario(persona.id)">
-                                            <i class="fa fa-eye"></i>
+                                        <button type="button" class="btn btn-info btn-sm" @click="activarUsuario(usuario.id)">
+                                            <i class="far fa-eye"></i>
                                         </button>
                                     </template>
                                 </td>
-                                <td v-text="persona.nombre"></td>
-                                <td v-text="persona.tipo_documento"></td>
-                                <td v-text="persona.num_documento"></td>
-                                <td v-text="persona.direccion"></td>
-                                <td v-text="persona.telefono"></td>
-                                <td v-text="persona.email"></td>
-                                <td v-text="persona.usuario"></td>
-                                <td v-text="persona.rol"></td>
+                                <td v-text="usuario.nombre"></td>
+                                <td v-text="usuario.correo_electronico"></td>
+                                <td v-text="usuario.usuario"></td>
+                                <td v-text="usuario.rol"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -106,14 +102,14 @@
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Correo Electrónico</label>
                                 <div class="col-md-9">
-                                    <input type="email" v-model="email" class="form-control"
+                                    <input type="email" v-model="correo_electronico" class="form-control"
                                         placeholder="Ingrese el correo electrónico del usuario">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-md-3 form-control-label" for="text-input">Rol <b>(*)</b></label>
                                 <div class="col-md-9">
-                                    <select class="form-control" v-model="idrol">
+                                    <select class="form-control" v-model="rol_id">
                                         <option value="0">Seleccione una opción: </option>
                                         <option v-for="rol in arrayRol" :key="rol.id" :value="rol.id" v-text="rol.nombre"></option>
                                     </select>
@@ -133,9 +129,9 @@
                                         placeholder="Ingrese la contraseña">
                                 </div>
                             </div>
-                            <div v-show="errorPersona" class="form-group row div-error">
+                            <div v-show="errorUsuario" class="form-group row div-error">
                                 <div class="text-center text-error">
-                                    <div v-for="error in errorMostrarMsjPersona" :key="error" v-text="error"></div>
+                                    <div v-for="error in errorMostrarMsjUsuario" :key="error" v-text="error"></div>
                                 </div>
                             </div>
                         </form>
@@ -143,8 +139,8 @@
                     <div class="modal-footer">
                         <span><b>(*)</b>&nbsp;Campo obligatorio de ingresar</span>
                         <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                        <button type="button" v-if="tipoAccion==1" class="btn btn-success" @click="registrarPersona()">Guardar</button>
-                        <button type="button" v-if="tipoAccion==2" class="btn btn-warning" @click="actualizarPersona()">Actualizar</button>
+                        <button type="button" v-if="tipoAccion==1" class="btn btn-success" @click="registrarUsuario()">Guardar</button>
+                        <button type="button" v-if="tipoAccion==2" class="btn btn-warning" @click="actualizarUsuario()">Actualizar</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -160,19 +156,19 @@
         //Propiedad 'data' de javascript donde se declaran las variables necesarias para el funcionamiento del modulo 'categorias', dentro de estas variables tenemos las encargadas de la paginacion, del crud, de la busqueda de registros y del activado y desactivado de la cliente
         data() {
             return {
-                persona_id: 0,
+                usuario_id: 0,
                 nombre: '',
-                email: '',
+                correo_electronico: '',
                 usuario: '',
                 password: '',
-                idrol: 0,
-                arrayPersona: [],
+                rol_id: 0,
+                arrayUsuario: [],
                 arrayRol: [],
                 modal: 0,
                 tituloModal: '',
                 tipoAccion: 0,
-                errorPersona: 0,
-                errorMostrarMsjPersona: [],
+                errorUsuario: 0,
+                errorMostrarMsjUsuario: [],
                 pagination: {
                     'total': 0,
                     'current_page': 0,
@@ -218,15 +214,15 @@
         //Métodos para mostrar, guardar, actualizar, desactivar y activar el usuario
         methods: {
             //Metodo para obtener todos los registros de la bd mediante el uso del controlador definido y en este caso, se tiene tambien la implementacion de la paginacion para ver los registros de acuerdo a lo establecido en el modelo (10 modelos por pagina) y se implementa la busqueda de registros en este metodo debido a que es el que se encarga de mostrar los datos de acuerdo al criterio elegido si es que se ha introducido un texto o mostrar todos los datos en caso de que no sea asi
-            listarPersona(page,buscar,criterio) {
+            listarUsuario(page,buscar,criterio) {
                 let me = this;
                 //Se le asigna a la ruta '/cliente' los parametros 'buscar' y 'criterio' mediante el metodo get que se utiliza para buscar un registro de acuerdo a lo que ha ingresado el usuario en el input para buscar
-                var url = '/user?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+                var url = '/usuario?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
                 axios.get(url).then(function (response) {
                     //Se crea una variable respuesta que guardara los datos de la consulta mediante ajax
                     var respuesta = response.data;
-                    //Guarda los datos en el arreglo 'arrayPersona'
-                    me.arrayPersona = respuesta.personas.data;
+                    //Guarda los datos en el arreglo 'arrayUsuario'
+                    me.arrayUsuario = respuesta.usuarios.data;
                     //Guarda en el arreglo 'pagination' las variables necesarias para llevar a cabo estas tareas
                     me.pagination = respuesta.pagination;
                 })
@@ -255,72 +251,72 @@
                 //Actualiza la pagina actual
                 me.pagination.current_page = page;
                 //Envia la peticion para visualizar los datos de esa pagina
-                me.listarPersona(page,buscar,criterio);
+                me.listarUsuario(page,buscar,criterio);
             },
             //Método para registrar una categoria a la base de datos
-            registrarPersona() {
+            registrarUsuario() {
                 //Verifica que el método 'verificarCategoria' haya devuelto un valor, en ese caso, no se realiza ninguna tarea hasta que esto no sea cierto
-                if (this.validarPersona()) {
+                if (this.validarUsuario()) {
                     return;
                 }
                 let me = this;
                 //Mediante axios se hace una peticion mediante ajax gracias a la ruta '/categoria/registrar' para llamar al controlador y ejecutar la tarea correspondiente
-                axios.post('/user/registrar',{
+                axios.post('/usuario/registrar',{
                     //Se le asignan los valores recopilados de los inputs del modal
                     'nombre': this.nombre,
-                    'email': this.email,
+                    'correo_electronico': this.correo_electronico,
                     'usuario': this.usuario,
                     'password': this.password,
-                    'idrol': this.idrol
+                    'rol_id': this.rol_id
                 }).then(function (response) {
                     //Se llama al metodo 'cerrarModal' para ocultarlo y se vuelve a enlistar las categorias de forma descendente, es decir, el registro recien ingresado sera el primero
                     me.cerrarModal();
-                    me.listarPersona(1,'','nombre');
+                    me.listarUsuario(1,'','nombre');
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
             },
             //Método para actualizar un registro de la tabla 'persona'
-            actualizarPersona() {
+            actualizarUsuario() {
                 //Verifica que el método 'verificarCategoria' haya devuelto un valor, en ese caso, se muestran los errores al usuario que son arrojados debido a que algun campo obligatorio esta vacio
-                if (this.validarPersona()) {
+                if (this.validarUsuario()) {
                     return;
                 }
                 let me = this;
                 //Mediante axios se hace una peticion mediante ajax gracias a la ruta '/categoria/actualizar' para llamar al controlador y ejecutar la tarea correspondiente
-                axios.put('/user/actualizar',{
+                axios.put('/usuario/actualizar',{
                     //Se le asignan los valores recopilados de los inputs del modal
                     'nombre': this.nombre,
-                    'email': this.email,
+                    'correo_electronico': this.correo_electronico,
                     'usuario': this.usuario,
                     'password': this.password,
-                    'idrol': this.idrol,
-                    'id': this.persona_id
+                    'rol_id': this.rol_id,
+                    'id': this.usuario_id
                 }).then(function (response) {
                     //Se llama al metodo 'cerrarModal' para ocultarlo y se vuelve a enlistar las categorias de forma descendente, es decir, el registro recien ingresado sera el primero
                     me.cerrarModal();
-                    me.listarPersona(1,'','nombre');
+                    me.listarUsuario(1,'','nombre');
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
             },
             //Método que sirve para mostrar en el modal errores cuando el usuario no ingresa texto en el input mediante el uso de un array del apartado de estilos
-            validarPersona() {
-                this.errorPersona = 0;
-                this.errorMostrarMsjPersona = [];
-                if (!this.nombre) this.errorMostrarMsjPersona.push("El nombre de la persona no puede estar vacío.");
-                if (!this.usuario) this.errorMostrarMsjPersona.push("El nombre de usuario no puede estar vacío.");
-                if (!this.password) this.errorMostrarMsjPersona.push("La contraseña no puede estar vacía.");
-                if (this.idrol == 0) this.errorMostrarMsjPersona.push("Seleccione un rol para el usuario.");
-                if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;
-                return this.errorPersona;
+            validarUsuario() {
+                this.errorUsuario = 0;
+                this.errorMostrarMsjUsuario = [];
+                if (!this.nombre) this.errorMostrarMsjUsuario.push("El nombre del usuario no puede estar vacío.");
+                if (!this.usuario) this.errorMostrarMsjUsuario.push("El usuario no puede estar vacío.");
+                if (!this.password) this.errorMostrarMsjUsuario.push("La contraseña no puede estar vacía.");
+                if (this.rol_id == 0) this.errorMostrarMsjUsuario.push("Seleccione un rol para el usuario.");
+                if (this.errorMostrarMsjUsuario.length) this.errorUsuario = 1;
+                return this.errorUsuario;
             },
             //Método que sirve para mostrar el modal para guardar/actualizar un proveedor, en este se tiene 2 switch donde se hace uso del modelo correspondiente y la acción, se hace de esta manera debido a que se utiliza el mismo modal para ambas tareas mas sin embargo, los datos que se mandan al controlador son diferentes
             abrirModal(modelo, accion, data = []) {
                 switch (modelo) {
-                    case "persona":
+                    case "usuario":
                     {
                         switch (accion) {
                             case 'registrar':
@@ -329,10 +325,10 @@
                                 this.tituloModal = 'Registrar Usuario';
                                 this.tipoAccion = 1;
                                 this.nombre = '';
-                                this.email = '';
+                                this.correo_electronico = '';
                                 this.usuario = '';
                                 this.password = '';
-                                this.idrol = 0;
+                                this.rol_id = 0;
                                 break;
                             }
                             case 'actualizar':
@@ -340,12 +336,12 @@
                                 this.modal = 1;
                                 this.tituloModal = 'Actualizar Usuario';
                                 this.tipoAccion = 2;
-                                this.persona_id = data['id'];
+                                this.usuario_id = data['id'];
                                 this.nombre = data['nombre'];
-                                this.email = data['email'];
+                                this.correo_electronico = data['correo_electronico'];
                                 this.usuario = data['usuario'];
                                 this.password = data['password'];
-                                this.idrol = data['idrol'];
+                                this.rol_id = data['rol_id'];
                                 break;
                             }
                         }
@@ -358,15 +354,11 @@
                 this.modal = 0;
                 this.tituloModal = '';
                 this.nombre = '';
-                this.tipo_documento = 'INE';
-                this.num_documento = '';
-                this.direccion = '';
-                this.telefono = '';
-                this.email = '';
+                this.correo_electronico = '';
                 this.usuario = '';
                 this.password = '';
-                this.idrol = 0;
-                this.errorPersona = 0;
+                this.rol_id = 0;
+                this.errorUsuario = 0;
             },
             //Método para desactivar un usuario y no pueda acceder al sistema
             desactivarUsuario(id) {
@@ -388,12 +380,12 @@
                     if (result.value) {
                         let me = this;
                         //Mediante axios se hace una peticion mediante ajax gracias a la ruta '/categoria/desactivar' para llamar al controlador y ejecutar la tarea correspondiente
-                        axios.put('/user/desactivar',{
+                        axios.put('/usuario/desactivar',{
                             //Se le asignan los valores recopilados de los inputs del modal
                             'id': id
                         }).then(function (response) {
                             //Se llama al metodo para enlistar las categorias y se muestra un mensaje mediante sweetalert
-                            me.listarPersona(1,'','nombre');
+                            me.listarUsuario(1,'','nombre');
                             swalWithBootstrapButtons.fire(
                             '¡Desactivado!',
                             'El registro ha sido desactivado con éxito.',
@@ -430,12 +422,12 @@
                     if (result.value) {
                         let me = this;
                         //Mediante axios se hace una peticion mediante ajax gracias a la ruta '/categoria/activar' para llamar al controlador y ejecutar la tarea correspondiente
-                        axios.put('/user/activar',{
+                        axios.put('/usuario/activar',{
                             //Se le asignan los valores recopilados de los inputs del modal
                             'id': id
                         }).then(function (response) {
                             //Se llama al metodo para enlistar las categorias y se muestra un mensaje mediante sweetalert
-                            me.listarPersona(1,'','nombre');
+                            me.listarUsuario(1,'','nombre');
                             swalWithBootstrapButtons.fire(
                             '¡Activado!',
                             'El registro ha sido activado con éxito.',
@@ -453,9 +445,9 @@
                 })
             },
         },
-        //Se utiliza la propiedad 'mounted' para hacer el llamado a los métodos que se quieren cargar automaticamente una vez se muestra el componente 'categoria'
+        //Se utiliza la propiedad 'mounted' para hacer el llamado a los métodos que se quieren cargar automaticamente una vez se muestra el componente 'usuario'
         mounted() {
-            this.listarPersona(1,this.buscar,this.criterio);
+            this.listarUsuario(1,this.buscar,this.criterio);
         }
     }
 </script>

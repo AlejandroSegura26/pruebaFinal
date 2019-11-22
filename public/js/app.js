@@ -1991,27 +1991,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   //Propiedad 'data' de javascript donde se declaran las variables necesarias para el funcionamiento del modulo 'categorias', dentro de estas variables tenemos las encargadas de la paginacion, del crud, de la busqueda de registros y del activado y desactivado de la cliente
   data: function data() {
     return {
-      persona_id: 0,
+      usuario_id: 0,
       nombre: '',
-      email: '',
+      correo_electronico: '',
       usuario: '',
       password: '',
-      idrol: 0,
-      arrayPersona: [],
+      rol_id: 0,
+      arrayUsuario: [],
       arrayRol: [],
       modal: 0,
       tituloModal: '',
       tipoAccion: 0,
-      errorPersona: 0,
-      errorMostrarMsjPersona: [],
+      errorUsuario: 0,
+      errorMostrarMsjUsuario: [],
       pagination: {
         'total': 0,
         'current_page': 0,
@@ -2064,15 +2060,15 @@ __webpack_require__.r(__webpack_exports__);
   //Métodos para mostrar, guardar, actualizar, desactivar y activar el usuario
   methods: {
     //Metodo para obtener todos los registros de la bd mediante el uso del controlador definido y en este caso, se tiene tambien la implementacion de la paginacion para ver los registros de acuerdo a lo establecido en el modelo (10 modelos por pagina) y se implementa la busqueda de registros en este metodo debido a que es el que se encarga de mostrar los datos de acuerdo al criterio elegido si es que se ha introducido un texto o mostrar todos los datos en caso de que no sea asi
-    listarPersona: function listarPersona(page, buscar, criterio) {
+    listarUsuario: function listarUsuario(page, buscar, criterio) {
       var me = this; //Se le asigna a la ruta '/cliente' los parametros 'buscar' y 'criterio' mediante el metodo get que se utiliza para buscar un registro de acuerdo a lo que ha ingresado el usuario en el input para buscar
 
-      var url = '/user?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+      var url = '/usuario?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
       axios.get(url).then(function (response) {
         //Se crea una variable respuesta que guardara los datos de la consulta mediante ajax
-        var respuesta = response.data; //Guarda los datos en el arreglo 'arrayPersona'
+        var respuesta = response.data; //Guarda los datos en el arreglo 'arrayUsuario'
 
-        me.arrayPersona = respuesta.personas.data; //Guarda en el arreglo 'pagination' las variables necesarias para llevar a cabo estas tareas
+        me.arrayUsuario = respuesta.usuarios.data; //Guarda en el arreglo 'pagination' las variables necesarias para llevar a cabo estas tareas
 
         me.pagination = respuesta.pagination;
       })["catch"](function (error) {
@@ -2099,74 +2095,74 @@ __webpack_require__.r(__webpack_exports__);
 
       me.pagination.current_page = page; //Envia la peticion para visualizar los datos de esa pagina
 
-      me.listarPersona(page, buscar, criterio);
+      me.listarUsuario(page, buscar, criterio);
     },
     //Método para registrar una categoria a la base de datos
-    registrarPersona: function registrarPersona() {
+    registrarUsuario: function registrarUsuario() {
       //Verifica que el método 'verificarCategoria' haya devuelto un valor, en ese caso, no se realiza ninguna tarea hasta que esto no sea cierto
-      if (this.validarPersona()) {
+      if (this.validarUsuario()) {
         return;
       }
 
       var me = this; //Mediante axios se hace una peticion mediante ajax gracias a la ruta '/categoria/registrar' para llamar al controlador y ejecutar la tarea correspondiente
 
-      axios.post('/user/registrar', {
+      axios.post('/usuario/registrar', {
         //Se le asignan los valores recopilados de los inputs del modal
         'nombre': this.nombre,
-        'email': this.email,
+        'correo_electronico': this.correo_electronico,
         'usuario': this.usuario,
         'password': this.password,
-        'idrol': this.idrol
+        'rol_id': this.rol_id
       }).then(function (response) {
         //Se llama al metodo 'cerrarModal' para ocultarlo y se vuelve a enlistar las categorias de forma descendente, es decir, el registro recien ingresado sera el primero
         me.cerrarModal();
-        me.listarPersona(1, '', 'nombre');
+        me.listarUsuario(1, '', 'nombre');
       })["catch"](function (error) {
         console.log(error);
       });
     },
     //Método para actualizar un registro de la tabla 'persona'
-    actualizarPersona: function actualizarPersona() {
+    actualizarUsuario: function actualizarUsuario() {
       //Verifica que el método 'verificarCategoria' haya devuelto un valor, en ese caso, se muestran los errores al usuario que son arrojados debido a que algun campo obligatorio esta vacio
-      if (this.validarPersona()) {
+      if (this.validarUsuario()) {
         return;
       }
 
       var me = this; //Mediante axios se hace una peticion mediante ajax gracias a la ruta '/categoria/actualizar' para llamar al controlador y ejecutar la tarea correspondiente
 
-      axios.put('/user/actualizar', {
+      axios.put('/usuario/actualizar', {
         //Se le asignan los valores recopilados de los inputs del modal
         'nombre': this.nombre,
-        'email': this.email,
+        'correo_electronico': this.correo_electronico,
         'usuario': this.usuario,
         'password': this.password,
-        'idrol': this.idrol,
-        'id': this.persona_id
+        'rol_id': this.rol_id,
+        'id': this.usuario_id
       }).then(function (response) {
         //Se llama al metodo 'cerrarModal' para ocultarlo y se vuelve a enlistar las categorias de forma descendente, es decir, el registro recien ingresado sera el primero
         me.cerrarModal();
-        me.listarPersona(1, '', 'nombre');
+        me.listarUsuario(1, '', 'nombre');
       })["catch"](function (error) {
         console.log(error);
       });
     },
     //Método que sirve para mostrar en el modal errores cuando el usuario no ingresa texto en el input mediante el uso de un array del apartado de estilos
-    validarPersona: function validarPersona() {
-      this.errorPersona = 0;
-      this.errorMostrarMsjPersona = [];
-      if (!this.nombre) this.errorMostrarMsjPersona.push("El nombre de la persona no puede estar vacío.");
-      if (!this.usuario) this.errorMostrarMsjPersona.push("El nombre de usuario no puede estar vacío.");
-      if (!this.password) this.errorMostrarMsjPersona.push("La contraseña no puede estar vacía.");
-      if (this.idrol == 0) this.errorMostrarMsjPersona.push("Seleccione un rol para el usuario.");
-      if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;
-      return this.errorPersona;
+    validarUsuario: function validarUsuario() {
+      this.errorUsuario = 0;
+      this.errorMostrarMsjUsuario = [];
+      if (!this.nombre) this.errorMostrarMsjUsuario.push("El nombre del usuario no puede estar vacío.");
+      if (!this.usuario) this.errorMostrarMsjUsuario.push("El usuario no puede estar vacío.");
+      if (!this.password) this.errorMostrarMsjUsuario.push("La contraseña no puede estar vacía.");
+      if (this.rol_id == 0) this.errorMostrarMsjUsuario.push("Seleccione un rol para el usuario.");
+      if (this.errorMostrarMsjUsuario.length) this.errorUsuario = 1;
+      return this.errorUsuario;
     },
     //Método que sirve para mostrar el modal para guardar/actualizar un proveedor, en este se tiene 2 switch donde se hace uso del modelo correspondiente y la acción, se hace de esta manera debido a que se utiliza el mismo modal para ambas tareas mas sin embargo, los datos que se mandan al controlador son diferentes
     abrirModal: function abrirModal(modelo, accion) {
       var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
 
       switch (modelo) {
-        case "persona":
+        case "usuario":
           {
             switch (accion) {
               case 'registrar':
@@ -2175,10 +2171,10 @@ __webpack_require__.r(__webpack_exports__);
                   this.tituloModal = 'Registrar Usuario';
                   this.tipoAccion = 1;
                   this.nombre = '';
-                  this.email = '';
+                  this.correo_electronico = '';
                   this.usuario = '';
                   this.password = '';
-                  this.idrol = 0;
+                  this.rol_id = 0;
                   break;
                 }
 
@@ -2187,12 +2183,12 @@ __webpack_require__.r(__webpack_exports__);
                   this.modal = 1;
                   this.tituloModal = 'Actualizar Usuario';
                   this.tipoAccion = 2;
-                  this.persona_id = data['id'];
+                  this.usuario_id = data['id'];
                   this.nombre = data['nombre'];
-                  this.email = data['email'];
+                  this.correo_electronico = data['correo_electronico'];
                   this.usuario = data['usuario'];
                   this.password = data['password'];
-                  this.idrol = data['idrol'];
+                  this.rol_id = data['rol_id'];
                   break;
                 }
             }
@@ -2206,15 +2202,11 @@ __webpack_require__.r(__webpack_exports__);
       this.modal = 0;
       this.tituloModal = '';
       this.nombre = '';
-      this.tipo_documento = 'INE';
-      this.num_documento = '';
-      this.direccion = '';
-      this.telefono = '';
-      this.email = '';
+      this.correo_electronico = '';
       this.usuario = '';
       this.password = '';
-      this.idrol = 0;
-      this.errorPersona = 0;
+      this.rol_id = 0;
+      this.errorUsuario = 0;
     },
     //Método para desactivar un usuario y no pueda acceder al sistema
     desactivarUsuario: function desactivarUsuario(id) {
@@ -2238,12 +2230,12 @@ __webpack_require__.r(__webpack_exports__);
         if (result.value) {
           var me = _this; //Mediante axios se hace una peticion mediante ajax gracias a la ruta '/categoria/desactivar' para llamar al controlador y ejecutar la tarea correspondiente
 
-          axios.put('/user/desactivar', {
+          axios.put('/usuario/desactivar', {
             //Se le asignan los valores recopilados de los inputs del modal
             'id': id
           }).then(function (response) {
             //Se llama al metodo para enlistar las categorias y se muestra un mensaje mediante sweetalert
-            me.listarPersona(1, '', 'nombre');
+            me.listarUsuario(1, '', 'nombre');
             swalWithBootstrapButtons.fire('¡Desactivado!', 'El registro ha sido desactivado con éxito.', 'success');
           })["catch"](function (error) {
             console.log(error);
@@ -2275,12 +2267,12 @@ __webpack_require__.r(__webpack_exports__);
         if (result.value) {
           var me = _this2; //Mediante axios se hace una peticion mediante ajax gracias a la ruta '/categoria/activar' para llamar al controlador y ejecutar la tarea correspondiente
 
-          axios.put('/user/activar', {
+          axios.put('/usuario/activar', {
             //Se le asignan los valores recopilados de los inputs del modal
             'id': id
           }).then(function (response) {
             //Se llama al metodo para enlistar las categorias y se muestra un mensaje mediante sweetalert
-            me.listarPersona(1, '', 'nombre');
+            me.listarUsuario(1, '', 'nombre');
             swalWithBootstrapButtons.fire('¡Activado!', 'El registro ha sido activado con éxito.', 'success');
           })["catch"](function (error) {
             console.log(error);
@@ -2291,9 +2283,9 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  //Se utiliza la propiedad 'mounted' para hacer el llamado a los métodos que se quieren cargar automaticamente una vez se muestra el componente 'categoria'
+  //Se utiliza la propiedad 'mounted' para hacer el llamado a los métodos que se quieren cargar automaticamente una vez se muestra el componente 'usuario'
   mounted: function mounted() {
-    this.listarPersona(1, this.buscar, this.criterio);
+    this.listarUsuario(1, this.buscar, this.criterio);
   }
 });
 
@@ -3467,7 +3459,7 @@ var render = function() {
                 attrs: { type: "button" },
                 on: {
                   click: function($event) {
-                    return _vm.abrirModal("persona", "registrar")
+                    return _vm.abrirModal("usuario", "registrar")
                   }
                 }
               },
@@ -3547,7 +3539,7 @@ var render = function() {
                         ) {
                           return null
                         }
-                        return _vm.listarPersona(1, _vm.buscar, _vm.criterio)
+                        return _vm.listarUsuario(1, _vm.buscar, _vm.criterio)
                       },
                       input: function($event) {
                         if ($event.target.composing) {
@@ -3565,7 +3557,7 @@ var render = function() {
                       attrs: { type: "submit" },
                       on: {
                         click: function($event) {
-                          return _vm.listarPersona(1, _vm.buscar, _vm.criterio)
+                          return _vm.listarUsuario(1, _vm.buscar, _vm.criterio)
                         }
                       }
                     },
@@ -3586,8 +3578,8 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "tbody",
-                  _vm._l(_vm.arrayPersona, function(persona) {
-                    return _c("tr", { key: persona.id }, [
+                  _vm._l(_vm.arrayUsuario, function(usuario) {
+                    return _c("tr", { key: usuario.id }, [
                       _c(
                         "td",
                         [
@@ -3599,17 +3591,17 @@ var render = function() {
                               on: {
                                 click: function($event) {
                                   return _vm.abrirModal(
-                                    "persona",
+                                    "usuario",
                                     "actualizar",
-                                    persona
+                                    usuario
                                   )
                                 }
                               }
                             },
-                            [_c("i", { staticClass: "icon-pencil" })]
+                            [_c("i", { staticClass: "fas fa-pen" })]
                           ),
                           _vm._v("  \n                                "),
-                          persona.condicion
+                          usuario.condicion
                             ? [
                                 _c(
                                   "button",
@@ -3618,11 +3610,11 @@ var render = function() {
                                     attrs: { type: "button" },
                                     on: {
                                       click: function($event) {
-                                        return _vm.desactivarUsuario(persona.id)
+                                        return _vm.desactivarUsuario(usuario.id)
                                       }
                                     }
                                   },
-                                  [_c("i", { staticClass: "icon-trash" })]
+                                  [_c("i", { staticClass: "far fa-eye-slash" })]
                                 )
                               ]
                             : [
@@ -3633,11 +3625,11 @@ var render = function() {
                                     attrs: { type: "button" },
                                     on: {
                                       click: function($event) {
-                                        return _vm.activarUsuario(persona.id)
+                                        return _vm.activarUsuario(usuario.id)
                                       }
                                     }
                                   },
-                                  [_c("i", { staticClass: "fa fa-eye" })]
+                                  [_c("i", { staticClass: "far fa-eye" })]
                                 )
                               ]
                         ],
@@ -3645,37 +3637,21 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _c("td", {
-                        domProps: { textContent: _vm._s(persona.nombre) }
+                        domProps: { textContent: _vm._s(usuario.nombre) }
                       }),
                       _vm._v(" "),
                       _c("td", {
                         domProps: {
-                          textContent: _vm._s(persona.tipo_documento)
+                          textContent: _vm._s(usuario.correo_electronico)
                         }
                       }),
                       _vm._v(" "),
                       _c("td", {
-                        domProps: { textContent: _vm._s(persona.num_documento) }
+                        domProps: { textContent: _vm._s(usuario.usuario) }
                       }),
                       _vm._v(" "),
                       _c("td", {
-                        domProps: { textContent: _vm._s(persona.direccion) }
-                      }),
-                      _vm._v(" "),
-                      _c("td", {
-                        domProps: { textContent: _vm._s(persona.telefono) }
-                      }),
-                      _vm._v(" "),
-                      _c("td", {
-                        domProps: { textContent: _vm._s(persona.email) }
-                      }),
-                      _vm._v(" "),
-                      _c("td", {
-                        domProps: { textContent: _vm._s(persona.usuario) }
-                      }),
-                      _vm._v(" "),
-                      _c("td", {
-                        domProps: { textContent: _vm._s(persona.rol) }
+                        domProps: { textContent: _vm._s(usuario.rol) }
                       })
                     ])
                   }),
@@ -3887,8 +3863,8 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.email,
-                                expression: "email"
+                                value: _vm.correo_electronico,
+                                expression: "correo_electronico"
                               }
                             ],
                             staticClass: "form-control",
@@ -3897,13 +3873,13 @@ var render = function() {
                               placeholder:
                                 "Ingrese el correo electrónico del usuario"
                             },
-                            domProps: { value: _vm.email },
+                            domProps: { value: _vm.correo_electronico },
                             on: {
                               input: function($event) {
                                 if ($event.target.composing) {
                                   return
                                 }
-                                _vm.email = $event.target.value
+                                _vm.correo_electronico = $event.target.value
                               }
                             }
                           })
@@ -3921,8 +3897,8 @@ var render = function() {
                                 {
                                   name: "model",
                                   rawName: "v-model",
-                                  value: _vm.idrol,
-                                  expression: "idrol"
+                                  value: _vm.rol_id,
+                                  expression: "rol_id"
                                 }
                               ],
                               staticClass: "form-control",
@@ -3937,7 +3913,7 @@ var render = function() {
                                         "_value" in o ? o._value : o.value
                                       return val
                                     })
-                                  _vm.idrol = $event.target.multiple
+                                  _vm.rol_id = $event.target.multiple
                                     ? $$selectedVal
                                     : $$selectedVal[0]
                                 }
@@ -4032,8 +4008,8 @@ var render = function() {
                             {
                               name: "show",
                               rawName: "v-show",
-                              value: _vm.errorPersona,
-                              expression: "errorPersona"
+                              value: _vm.errorUsuario,
+                              expression: "errorUsuario"
                             }
                           ],
                           staticClass: "form-group row div-error"
@@ -4042,7 +4018,7 @@ var render = function() {
                           _c(
                             "div",
                             { staticClass: "text-center text-error" },
-                            _vm._l(_vm.errorMostrarMsjPersona, function(error) {
+                            _vm._l(_vm.errorMostrarMsjUsuario, function(error) {
                               return _c("div", {
                                 key: error,
                                 domProps: { textContent: _vm._s(error) }
@@ -4081,7 +4057,7 @@ var render = function() {
                           attrs: { type: "button" },
                           on: {
                             click: function($event) {
-                              return _vm.registrarPersona()
+                              return _vm.registrarUsuario()
                             }
                           }
                         },
@@ -4097,7 +4073,7 @@ var render = function() {
                           attrs: { type: "button" },
                           on: {
                             click: function($event) {
-                              return _vm.actualizarPersona()
+                              return _vm.actualizarUsuario()
                             }
                           }
                         },
@@ -16438,7 +16414,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/ourc/Escritorio/proyecto_final/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/godomar/Desktop/pfinal/resources/js/app.js */"./resources/js/app.js");
 
 
 /***/ })

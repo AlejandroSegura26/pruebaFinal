@@ -30,5 +30,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-
+    //Función para declarar la relación entre la tabla 'usuarios' y 'roles' donde a un usuario pertenece a un rol
+    public function rol() {
+        return $this->belongsTo('App\Rol');
+    }
 }

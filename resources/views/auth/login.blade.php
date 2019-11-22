@@ -27,7 +27,7 @@
                         {!!$errors->first('usuario','<span class="invalid-feedback">:message</span>')!!}
                       </div>
                       <div class="form-group {{ $errors->has('password' ? 'is-invalid' : '')}}">
-                        <input type="password" class="form-control form-control-user" name="password" id="password" placeholder="Password">
+                        <input type="password" class="form-control form-control-user" name="password" id="password" placeholder="Ingresa la contraseña...">
                       </div>
                       <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-user btn-block">Acceder</button>

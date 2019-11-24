@@ -12,7 +12,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         //Verifica que solo existan peticiones por Ajax, en caso de acceder a una ruta dirigira a la raiz
-        if (!$request->ajax()) return redirect('/');
+        //if (!$request->ajax()) return redirect('/');
         $buscar = $request->buscar;
         $criterio = $request->criterio;
         //Verifica que el input del texto a buscar este vacio, en ese caso, realiza un select para recopilar los datos necesarios para llevar a cabo el crud y los ordena descendiente y los pagina de 5 en 5
@@ -98,4 +98,26 @@ class UserController extends Controller
         $usuario->condicion = '1';
         $usuario->save();
     }
+    //Devuelve todas los roles activados para utilizarse en un select
+    public function selectCliente(Request $request)
+    {
+        //Verifica que solo existan peticiones por Ajax, en caso de acceder a una ruta dirigira a la raiz
+        //if (!$request->ajax()) return redirect('/');
+        //Verifica que traiga solo los roles que estan activas y las ordena ascendentemente para guardalas en el arreglo 'roles'
+        $clientes = User::where('rol_id','=','4')
+        ->select('id','nombre')->orderBy('nombre','asc')->get();
+        return ['cliente' => $clientes];
+    }
+  
+  //Devuelve todas los roles activados para utilizarse en un select
+    public function selectManager(Request $request)
+    {
+        //Verifica que solo existan peticiones por Ajax, en caso de acceder a una ruta dirigira a la raiz
+        //if (!$request->ajax()) return redirect('/');
+        //Verifica que traiga solo los roles que estan activas y las ordena ascendentemente para guardalas en el arreglo 'roles'
+        $manager = User::where('rol_id','=','2')
+        ->select('id','nombre')->orderBy('nombre','asc')->get();
+        return ['manager' => $manager];
+    }
+  
 }

@@ -30,18 +30,26 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put('/usuario/actualizar','UserController@update');
         Route::put('/usuario/desactivar','UserController@desactivar');
         Route::put('/usuario/activar','UserController@activar');
+      //futas para proyectos
+        Route::get('/usuario/selectCliente','UserController@selectCliente');
+        Route::get('/usuario/selectManager','UserController@selectManager');
+        Route::get('/proyecto','ProyectoController@index');
+        Route::put('/proyecto/actualizar','ProyectoController@update');
+        Route::put('/proyecto/desactivar','ProyectoController@desactivar');
+        Route::post('/proyecto/registrar','ProyectoController@store');
+      
     });
     //Rutas para el usuario 'Director de Proyecto'
     Route::group(['middleware' => ['DirectorProyecto']], function () {
-        
+
     });
     //Rutas para el usuario 'Programador'
     Route::group(['middleware' => ['Programdor']], function () {
-        
+
     });
     //Rutas para el usuario 'Cliente'
     Route::group(['middleware' => ['Cliente']], function () {
-        
+
     });
     //Contenido principal
     Route::get('/principal', function () {

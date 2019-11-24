@@ -23,7 +23,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 Vue.component('usuario-component', require('./components/UsuarioComponent.vue').default);
 Vue.component('metodospago-component', require('./components/MetodosPagoComponent.vue').default);
-
+Vue.component('proyecto-component',require('./components/ProyectosComponent.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

@@ -24,7 +24,7 @@
         </template>
         <!-- Proyectos -->
         <template v-if="menu==5">
-            <h1>Administrador / 5</h1>
+            <proyecto-component></proyecto-component>
         </template>
         <!-- Servicios -->
         <template v-if="menu==6">
